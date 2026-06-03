@@ -1,0 +1,78 @@
+from __future__ import annotations
+
+import argparse
+
+from modules.person_detector import PersonDetector
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="Door Safety AI demo runner"
+    )
+    parser.add_argument(
+        "--source",
+        default="0",
+        help="Video source. Use 0 for webcam or pass a video file path.",
+    )
+    parser.add_argument(
+        "--model",
+        default="yolov8n.pt",
+        help="YOLO model path or model name.",
+    )
+    parser.add_argument(
+        "--confidence",
+        type=float,
+        default=0.5,
+        help="Minimum confidence score for person detection.",
+    )
+    return parser.parse_args()
+
+
+def open_video_capture(source: str):
+    import cv2
+
+    capture_source: int | str
+    capture_source = int(source) if source.isdigit() else source
+    capture = cv2.VideoCapture(capture_source)
+    if not capture.isOpened():
+        raise RuntimeError(f"Cannot open video source: {source}")
+    return capture
+
+
+def main() -> None:
+    import cv2
+
+    args = parse_args()
+    detector = PersonDetector(model_path=args.model, confidence=args.confidence)
+
+    capture = open_video_capture(args.source)
+    print("Press q to quit.")
+
+    while True:
+        ok, frame = capture.read()
+        if not ok:
+            break
+
+        detections = detector.detect(frame)
+        annotated = detector.draw_detections(frame, detections)
+        status = f"person_detected={bool(detections)} count={len(detections)}"
+        cv2.putText(
+            annotated,
+            status,
+            (20, 40),
+            cv2.FONT_HERSHEY_SIMPLEX,
+            0.7,
+            (0, 255, 255),
+            2,
+        )
+
+        cv2.imshow("Door Safety AI", annotated)
+        if cv2.waitKey(1) & 0xFF == ord("q"):
+            break
+
+    capture.release()
+    cv2.destroyAllWindows()
+
+
+if __name__ == "__main__":
+    main()

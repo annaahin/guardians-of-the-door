@@ -1,5 +1,3 @@
-# guardians-of-the-door
-멀티모달 AI 기반 데이트폭력 피해자 보호를 위한 접근 인물 식별 및 위험행동 감지 시스템
 # Door Safety AI
 
 멀티모달 AI 기반 데이트폭력 피해자 보호를 위한 접근 인물 식별 및 위험행동 감지 시스템
@@ -27,4 +25,42 @@
 
 ## 실행 방법
 
-추후 작성 예정
+### 1. 가상환경 생성
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+```
+
+### 2. 패키지 설치
+
+```bash
+pip install -r requirements.txt
+```
+
+### 3. 웹캠으로 사람 감지 실행
+
+```bash
+python main.py --source 0
+```
+
+### 4. 영상 파일로 실행
+
+```bash
+python main.py --source data/videos/sample.mp4
+```
+
+## 브랜치 전략
+
+- `main`: 최종 제출용 안정 버전
+- `develop`: 팀원이 확인한 기능을 합치는 개발 브랜치
+- `feature/person-recognition`: 접근 인물 인식 모듈 작업 브랜치
+
+## 현재 구현 범위
+
+이 브랜치는 음아인 담당 범위만 다룬다.
+
+- `modules/person_detector.py`: YOLO 기반 사람 감지
+- `modules/face_recognizer.py`: 등록 얼굴 비교 기능을 붙이기 위한 기본 구조
+- `data/registered_faces/`: 등록 인물 얼굴 이미지 저장 위치
+- `docs/research.md`: 접근 인물 인식 관련 조사 정리
