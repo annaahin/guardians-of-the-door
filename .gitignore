@@ -208,6 +208,7 @@ data/videos/*
 data/registered_faces/*
 results/screenshots/*
 results/demo_videos/*
+*.pt
 !data/videos/.gitkeep
 !data/registered_faces/.gitkeep
 !results/screenshots/.gitkeep
