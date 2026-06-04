@@ -20,6 +20,23 @@ class PersonDetection:
         x1, y1, x2, y2 = self.bbox
         return ((x1 + x2) // 2, (y1 + y2) // 2)
 
+    def to_dict(self) -> dict[str, object]:
+        return {
+            "bbox": list(self.bbox),
+            "confidence": round(self.confidence, 4),
+            "center": list(self.center),
+        }
+
+
+def build_person_detection_payload(
+    detections: list[PersonDetection],
+) -> dict[str, object]:
+    return {
+        "person_detected": bool(detections),
+        "person_count": len(detections),
+        "detections": [detection.to_dict() for detection in detections],
+    }
+
 
 class PersonDetector:
     """YOLO-based person detector.

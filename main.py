@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import argparse
 
-from modules.person_detector import PersonDetector
+from modules.person_detector import PersonDetector, build_person_detection_payload
 
 
 def parse_args() -> argparse.Namespace:
@@ -54,8 +54,12 @@ def main() -> None:
             break
 
         detections = detector.detect(frame)
+        payload = build_person_detection_payload(detections)
         annotated = detector.draw_detections(frame, detections)
-        status = f"person_detected={bool(detections)} count={len(detections)}"
+        status = (
+            f"person_detected={payload['person_detected']} "
+            f"count={payload['person_count']}"
+        )
         cv2.putText(
             annotated,
             status,
