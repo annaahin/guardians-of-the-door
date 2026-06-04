@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 
+from modules.face_recognizer import FaceRecognizer
 from modules.person_detector import PersonDetector, build_person_detection_payload
 
 
@@ -25,6 +26,22 @@ def parse_args() -> argparse.Namespace:
         default=0.5,
         help="Minimum confidence score for person detection.",
     )
+    parser.add_argument(
+        "--enable-face-recognition",
+        action="store_true",
+        help="Compare detected face with images in data/registered_faces.",
+    )
+    parser.add_argument(
+        "--registered-faces-dir",
+        default="data/registered_faces",
+        help="Directory containing registered face images.",
+    )
+    parser.add_argument(
+        "--face-threshold",
+        type=float,
+        default=0.75,
+        help="Minimum similarity for registered-face matching.",
+    )
     return parser.parse_args()
 
 
@@ -44,6 +61,14 @@ def main() -> None:
 
     args = parse_args()
     detector = PersonDetector(model_path=args.model, confidence=args.confidence)
+    face_recognizer = (
+        FaceRecognizer(
+            registered_faces_dir=args.registered_faces_dir,
+            similarity_threshold=args.face_threshold,
+        )
+        if args.enable_face_recognition
+        else None
+    )
 
     capture = open_video_capture(args.source)
     print("Press q to quit.")
@@ -55,11 +80,21 @@ def main() -> None:
 
         detections = detector.detect(frame)
         payload = build_person_detection_payload(detections)
+        face_result = (
+            face_recognizer.recognize_frame(frame)
+            if face_recognizer is not None
+            else None
+        )
         annotated = detector.draw_detections(frame, detections)
         status = (
             f"person_detected={payload['person_detected']} "
             f"count={payload['person_count']}"
         )
+        if face_result is not None:
+            status += (
+                f" registered={face_result.is_registered} "
+                f"similarity={face_result.similarity:.2f}"
+            )
         cv2.putText(
             annotated,
             status,

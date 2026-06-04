@@ -50,6 +50,14 @@ python main.py --source 0
 python main.py --source data/videos/sample.mp4
 ```
 
+### 5. 등록 얼굴 비교 실행
+
+등록 얼굴 이미지는 `data/registered_faces/` 폴더에 `이름_번호.png` 형식으로 저장한다.
+
+```bash
+python main.py --source 0 --enable-face-recognition
+```
+
 ## 브랜치 전략
 
 - `main`: 최종 제출용 안정 버전
@@ -61,6 +69,6 @@ python main.py --source data/videos/sample.mp4
 이 브랜치는 음아인 담당 범위만 다룬다.
 
 - `modules/person_detector.py`: YOLO 기반 사람 감지
-- `modules/face_recognizer.py`: 등록 얼굴 비교 기능을 붙이기 위한 기본 구조
+- `modules/face_recognizer.py`: OpenCV 기반 등록 얼굴 비교 1차 구현
 - `data/registered_faces/`: 등록 인물 얼굴 이미지 저장 위치
 - `docs/research.md`: 접근 인물 인식 관련 조사 정리
