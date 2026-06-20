@@ -232,7 +232,10 @@ guardians-of-the-door/
 ├── modules/
 │   ├── __init__.py
 │   ├── person_detector.py
-│   └── feature_extractor.py
+│   ├── feature_extractor.py
+│   ├── model_trainer.py
+│   ├── risk_classifier.py
+│   └── visualizer.py
 │
 ├── data/
 │   ├── videos/
