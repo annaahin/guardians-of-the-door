@@ -235,3 +235,8 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Dataset
+dangerous/
+normal/
+suspicious/

@@ -135,6 +135,10 @@ suspicious_001.mp4
 suspicious_002.mp4
 dangerous_001.mp4
 dangerous_002.mp4
+## 촬영 시나리오 예시
+
+### normal
+
 ```
 
 클래스 폴더 안에 행동별 하위 폴더가 있어도 된다.
@@ -184,6 +188,7 @@ data/videos/dangerous/문을 강하게 두드리는 행동/
 |---|---|
 | `duration` | 영상 전체 길이 |
 | `detected_ratio` | 전체 프레임 중 사람이 감지된 비율 |
+| `zone_ratio` | 사람이 위험구역 안에 있었던 비율 |
 | `zone_ratio` | 사람이 감지된 프레임 중 위험구역 안에 있었던 비율 |
 | `zone_stay_time` | 사람이 위험구역 안에 머문 시간(초) |
 | `zone_entry_count` | 위험구역에 진입한 횟수 |
@@ -209,6 +214,13 @@ dangerous_001.mp4,dangerous,문 손잡이에 손을 뻗음
 
 ### features.csv
 
+`features.csv`는 영상에서 추출한 행동 특징값을 저장한다.
+
+```csv
+video_name,duration,detected_ratio,zone_ratio,zone_entry_count,move_distance,avg_speed,direction_change,max_box_area
+normal_001.mp4,5.2,0.95,0.12,1,230.5,44.3,1,30240
+suspicious_001.mp4,12.4,0.98,0.76,3,610.2,49.2,5,42100
+dangerous_001.mp4,10.1,0.97,0.91,1,120.8,11.9,1,58000
 `features.csv`는 영상에서 추출한 행동 특징값을 저장한다. `label`은 포함하지 않으며, 이후 `labels.csv`와 `video_name` 기준으로 병합한다.
 
 ```csv
@@ -296,6 +308,24 @@ python main.py
 특정 영상 하나만 테스트하려면 다음과 같이 실행할 수 있다.
 
 ```bash
+python main.py --video data/videos/normal/normal_001.mp4
+```
+
+---
+
+## 최종 산출물
+
+- 자체 구축 영상 데이터셋
+- `labels.csv`
+- `features.csv`
+- 위험행동 분류 모델
+- 모델 평가 결과
+- 시연 영상 또는 결과 캡처
+- 최종 보고서
+- 발표 자료
+
+---
+
 python main.py --video "data/videos/normal/normal_001.mp4"
 ```
 
