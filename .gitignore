@@ -203,6 +203,25 @@ cython_debug/
 # Temporary file for partial code execution
 tempCodeRunnerFile.py
 
+# macOS metadata
+.DS_Store
+
+# Large local dataset files
+data/videos/**/*.mp4
+data/videos/**/*.MP4
+data/videos/**/*.mov
+data/videos/**/*.MOV
+data/videos/**/*.avi
+data/videos/**/*.AVI
+data/videos/**/*.mkv
+data/videos/**/*.MKV
+
+# Local model weights downloaded by Ultralytics
+*.pt
+
+# Local experiment outputs
+results/
+
 # Ruff stuff:
 .ruff_cache/
 
