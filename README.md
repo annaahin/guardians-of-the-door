@@ -135,6 +135,19 @@ suspicious_001.mp4
 suspicious_002.mp4
 dangerous_001.mp4
 dangerous_002.mp4
+```
+
+클래스 폴더 안에 행동별 하위 폴더가 있어도 된다.
+
+```text
+data/videos/normal/1. 문 앞 지나가기/
+data/videos/normal/2. 잠깐 섰다가 이동/
+data/videos/suspicious/문 앞 10초 이상 서 있기/
+data/videos/dangerous/문을 강하게 두드리는 행동/
+```
+
+단, `features.csv`의 `video_name`은 파일명만 저장하므로 전체 영상 파일명은 서로 겹치지 않게 관리한다.
+
 ## 촬영 시나리오 예시
 
 ### normal
@@ -171,7 +184,8 @@ dangerous_002.mp4
 |---|---|
 | `duration` | 영상 전체 길이 |
 | `detected_ratio` | 전체 프레임 중 사람이 감지된 비율 |
-| `zone_ratio` | 사람이 위험구역 안에 있었던 비율 |
+| `zone_ratio` | 사람이 감지된 프레임 중 위험구역 안에 있었던 비율 |
+| `zone_stay_time` | 사람이 위험구역 안에 머문 시간(초) |
 | `zone_entry_count` | 위험구역에 진입한 횟수 |
 | `move_distance` | 사람 중심점의 총 이동 거리 |
 | `avg_speed` | 평균 이동 속도 |
@@ -195,13 +209,13 @@ dangerous_001.mp4,dangerous,문 손잡이에 손을 뻗음
 
 ### features.csv
 
-`features.csv`는 영상에서 추출한 행동 특징값을 저장한다.
+`features.csv`는 영상에서 추출한 행동 특징값을 저장한다. `label`은 포함하지 않으며, 이후 `labels.csv`와 `video_name` 기준으로 병합한다.
 
 ```csv
-video_name,duration,detected_ratio,zone_ratio,zone_entry_count,move_distance,avg_speed,direction_change,max_box_area
-normal_001.mp4,5.2,0.95,0.12,1,230.5,44.3,1,30240
-suspicious_001.mp4,12.4,0.98,0.76,3,610.2,49.2,5,42100
-dangerous_001.mp4,10.1,0.97,0.91,1,120.8,11.9,1,58000
+video_name,duration,detected_ratio,zone_ratio,zone_stay_time,zone_entry_count,move_distance,avg_speed,direction_change,max_box_area
+normal_001.mp4,5.2,0.95,0.12,0.62,1,230.5,44.3,1,30240
+suspicious_001.mp4,12.4,0.98,0.76,9.24,3,610.2,49.2,5,42100
+dangerous_001.mp4,10.1,0.97,0.91,8.92,1,120.8,11.9,1,58000
 ```
 
 ---
@@ -216,6 +230,7 @@ guardians-of-the-door/
 ├── README.md
 │
 ├── modules/
+│   ├── __init__.py
 │   ├── person_detector.py
 │   ├── feature_extractor.py
 │   ├── model_trainer.py
@@ -251,6 +266,8 @@ guardians-of-the-door/
 필요한 라이브러리는 `requirements.txt`에 정리한다.
 
 ```bash
+python -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
@@ -279,7 +296,19 @@ python main.py
 특정 영상 하나만 테스트하려면 다음과 같이 실행할 수 있다.
 
 ```bash
-python main.py --video data/videos/normal/normal_001.mp4
+python main.py --video "data/videos/normal/normal_001.mp4"
+```
+
+YOLO 탐지 결과, 사람 bounding box, 중심점, 위험구역을 화면으로 확인하고 싶으면 `--show` 옵션을 추가한다.
+
+```bash
+python main.py --video "data/videos/normal/normal_001.mp4" --show
+```
+
+위험구역 좌표는 실행 시 변경할 수 있다.
+
+```bash
+python main.py --zone-x1 80 --zone-y1 450 --zone-x2 780 --zone-y2 1450
 ```
 
 ---
