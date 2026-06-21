@@ -16,28 +16,30 @@ def load_and_preprocess_real_data(features_path='data/features.csv', labels_path
     print("실제 데이터셋을 불러오는 중...")
     
     # 1. 특징 데이터 읽기
-    df_features = pd.read_csv(features_path)
+    df_features = pd.read_csv(features_path, encoding='cp949')
     
-    # 2. 라벨 데이터 읽기
-    df_labels = pd.read_csv(labels_path, header=2)
+    # 2. 라벨 데이터 읽기 (header=2 로 세팅하여 3번째 줄을 컬럼명으로 사용)
+    df_labels = pd.read_csv(labels_path, header=2, encoding='cp949')
     
-    # 3. labels.csv의 'video_path' 
+    # 3. 파일명만 추출하여 'video_name' 열 생성
     df_labels['video_name'] = df_labels['video_path'].apply(lambda x: str(x).split('/')[-1].split('\\')[-1])
     
-    # 4. 'video_name'을 기준으로 두 데이터프레임 병합 (Inner Join)
+    # 4. 데이터 병합
     df_merged = pd.merge(df_features, df_labels, on='video_name')
     print(f"데이터 병합 완료. 총 샘플 수: {len(df_merged)}개")
     
-    # 5. 추출된 9개의 특징 컬럼만 선택
+    # 5. 특징 컬럼 선택
     feature_cols = [
         'duration', 'detected_ratio', 'zone_ratio', 'zone_stay_time', 
         'zone_entry_count', 'move_distance', 'avg_speed', 'direction_change', 'max_box_area'
     ]
     
     X = df_merged[feature_cols]
-    y = df_merged['label'] # 정답 라벨
     
-    # 6. 학습/테스트 셋 분리
+    # [핵심] 마법의 코드: 띄어쓰기 제거 및 소문자 변환
+    y = df_merged['label'].astype(str).str.strip().str.lower()
+    
+    # 6. 학습/테스트 셋 분리 (반드시 X와 y를 깔끔하게 다듬은 '직후'에 분리해야 개수가 맞아!)
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
     
     return X_train, X_test, y_train, y_test
