@@ -96,7 +96,7 @@
 ### 문지민 - 자체 영상 데이터셋 구축 및 라벨링 관리
 
 - `normal`, `suspicious`, `dangerous` 클래스 정의
-- 클래스별 촬영 시나리오 작성
+- 클래스별 촬영 상황 작성
 - 영상 파일명 규칙 정리
 - 팀원 촬영 영상 수합 및 정리
 - `labels.csv` 작성
@@ -121,21 +121,22 @@
 
 | 클래스 | 영상 개수 |
 |---|---:|
-| `normal` | 30개 |
-| `suspicious` | 30개 |
-| `dangerous` | 30개 |
-| 총합 | 90개 |
+| `normal` | 32개 |
+| `suspicious` | 25개 |
+| `dangerous` | 25개 |
+| 총합 | 82개 |
 
 영상 파일명은 아래와 같은 형식을 사용한다.
 
 ```text
-normal_001.mp4
-normal_002.mp4
-suspicious_001.mp4
-suspicious_002.mp4
-dangerous_001.mp4
-dangerous_002.mp4
-## 촬영 시나리오 예시
+normal_001.mov
+normal_002.mov
+suspicious_001.mov
+suspicious_002.mov
+dangerous_001.mov
+dangerous_002.mov
+
+## 촬영 상황 예시
 
 ### normal
 
