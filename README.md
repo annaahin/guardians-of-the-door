@@ -184,7 +184,7 @@ dangerous_002.mp4
 
 ### labels.csv
 
-`labels.csv`는 영상 파일명과 실제 라벨 정보를 저장한다.
+`labels.csv`는 영상 파일명과 실제 라벨 정보를 저장한다
 
 ```csv
 video_name,label,scenario
