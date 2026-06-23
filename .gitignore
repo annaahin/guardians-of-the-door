@@ -219,6 +219,9 @@ data/videos/**/*.MKV
 # Local model weights downloaded by Ultralytics
 *.pt
 
+# Local UI alert history generated during demos
+results/alert_history.csv
+
 # Local experiment outputs
 results/
 

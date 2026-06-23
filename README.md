@@ -243,16 +243,16 @@ dangerous_001.mp4,10.1,0.97,0.91,8.92,1,120.8,11.9,1,58000
 guardians-of-the-door/
 │
 ├── main.py
+├── app.py
+├── model_trainer.py
+├── risk_classifier.py
 ├── requirements.txt
 ├── README.md
 │
 ├── modules/
 │   ├── __init__.py
 │   ├── person_detector.py
-│   ├── feature_extractor.py
-│   ├── model_trainer.py
-│   ├── risk_classifier.py
-│   └── visualizer.py
+│   └── feature_extractor.py
 │
 ├── data/
 │   ├── videos/
@@ -298,6 +298,8 @@ pandas
 scikit-learn
 matplotlib
 joblib
+seaborn
+streamlit
 ```
 
 ---
@@ -316,24 +318,6 @@ python main.py
 python main.py --video data/videos/normal/normal_001.mp4
 ```
 
----
-
-## 최종 산출물
-
-- 자체 구축 영상 데이터셋
-- `labels.csv`
-- `features.csv`
-- 위험행동 분류 모델
-- 모델 평가 결과
-- 시연 영상 또는 결과 캡처
-- 최종 보고서
-- 발표 자료
-
----
-
-python main.py --video "data/videos/normal/normal_001.mp4"
-```
-
 YOLO 탐지 결과, 사람 bounding box, 중심점, 위험구역을 화면으로 확인하고 싶으면 `--show` 옵션을 추가한다.
 
 ```bash
@@ -345,6 +329,14 @@ python main.py --video "data/videos/normal/normal_001.mp4" --show
 ```bash
 python main.py --zone-x1 80 --zone-y1 450 --zone-x2 780 --zone-y2 1450
 ```
+
+시연용 웹 UI를 실행하려면 다음 명령어를 사용한다.
+
+```bash
+streamlit run app.py
+```
+
+웹 UI에서는 프로젝트 영상 선택 또는 영상 파일 업로드를 통해 행동 특징 추출, 위험행동 예측 결과, 분석 캡처 이미지를 확인할 수 있다.
 
 ---
 
