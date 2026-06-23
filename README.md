@@ -105,11 +105,11 @@
 ### 송시은 - 위험행동 분류 모델 학습 및 평가
 
 - `features.csv`와 `labels.csv`를 활용한 학습 데이터 구성
-- train/test 데이터 분리
-- RandomForest, SVM 등 분류 모델 학습
-- `normal`, `suspicious`, `dangerous` 3개 클래스 예측
-- 정확도 및 confusion matrix 기반 모델 평가
-- 학습된 모델 저장 및 예측 코드 구현
+- train/test 데이터 분리 (stratified split)
+- RandomForest 기반 3-class(normal, suspicious, dangerous) 분류 모델 학습
+- accuracy, confusion matrix, classification report 기반 모델 성능 평가
+- 학습된 모델(.pkl) 저장 및 예측 코드 구현
+- RiskClassifier 클래스를 통한 위험도 예측 기능 구현 
 
 ---
 
